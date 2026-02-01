@@ -1,0 +1,27 @@
+name: Crypto-Distributed-Scanner
+
+on:
+  schedule:
+    - cron: '*/15 * * * *' # Har 15 minute baad khud chalega
+  workflow_dispatch: # Manual button ke liye
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Libraries
+        run: pip install ccxt pandas requests
+
+      - name: Run Scraper Script
+        env:
+          MASTER_IP: ${{ secrets.MASTER_IP }}
+          MASTER_PORT: ${{ secrets.MASTER_PORT }}
+        run: python scraper.py
