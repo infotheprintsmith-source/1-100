@@ -1,24 +1,28 @@
-name: 3Y-History-Fetcher
+name: Crypto-Live-Scanner-Acc1
+
 on:
-  workflow_dispatch: # Manual Button
   schedule:
-    - cron: '0 0 1 * *' # Har mahine ki 1 tareekh ko auto-update hoga
+    - cron: '*/15 * * * *' # Har 15 minute baad
+  workflow_dispatch: # Manual button ke liye
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Install dependencies
-        run: pip install ccxt pandas requests
-      - name: Run Fetcher
+
+      - name: Install Libraries
+        run: pip install ccxt requests
+
+      - name: Run Scraper
         env:
           MASTER_IP: ${{ secrets.MASTER_IP }}
-          MASTER_PORT: ${{ secrets.MASTER_PORT }}
-          START_INDEX: 0
-          END_INDEX: 100
-        run: python history_fetcher.py
+          START_INDEX: ${{ secrets.START_INDEX }}
+          END_INDEX: ${{ secrets.END_INDEX }}
+        run: python scraper.py
