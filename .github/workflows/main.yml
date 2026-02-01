@@ -24,4 +24,6 @@ jobs:
         env:
           MASTER_IP: ${{ secrets.MASTER_IP }}
           MASTER_PORT: ${{ secrets.MASTER_PORT }}
+          START_INDEX: ${{ secrets.START_INDEX }}
+          END_INDEX: ${{ secrets.END_INDEX }}
         run: python scraper.py
